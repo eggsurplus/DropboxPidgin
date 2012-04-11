@@ -1,0 +1,1 @@
+Drop the files into the root directory of a SugarCRM instance
