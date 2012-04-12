@@ -208,16 +208,20 @@ class ExtAPIDropboxPidgin extends OAuthPluginBase {
     
 	public function getLogs($yahoo_id)
 	{
+		global $current_user;
+		if($current_user->messenger_type != 'Yahoo!' || empty($current_user->messenger_id)) {
+			return array('success'=>FALSE,'errorMessage'=>'Set your Yahoo! information on your User record');
+		}
 		try {
 			$params = array('file_limit'=>'10');
 			//ignore Apps/DropboxPidgin as it assumes that for the Dropbox application
-			$urlPath = 'metadata/sandbox/.purple/logs/yahoo/eggsurplus/'.$yahoo_id.'/';
+			$urlPath = 'metadata/sandbox/.purple/logs/yahoo/'.$current_user->messenger_id.'/'.$yahoo_id.'/';
 			$response = $this->makeRequest("GET", $urlPath, $params);
 			$logs = $this->formatLogList($response);
 			return array('success'=>TRUE,'logs'=> $logs);
 		} catch (Exception $e) {
 			$errorMessage = "Unable to retrieve item list for DropboxPidgin connector.";
-			$GLOBALS['log']->fatal($errorMessage);
+			$GLOBALS['log']->fatal($errorMessage.': '.$e->getMessage());
 			return array('success'=>FALSE,'errorMessage'=>$errorMessage);
 		}		
 	}

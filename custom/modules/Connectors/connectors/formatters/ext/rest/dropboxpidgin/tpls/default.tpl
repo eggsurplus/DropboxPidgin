@@ -140,7 +140,6 @@ function archiveLog(logPath){
 		}
 	} 
 	,"module=Connectors&action=CallConnectorFunc&source_id=ext_rest_dropboxpidgin&source_func=archiveLog&archiveModule="+dropboxpidginModule+"&archiveRecord="+dropboxpidginRecord+"&archivePath="+logPath);
-
 }
 
 {/literal}
